@@ -1,0 +1,9 @@
+**/.DS_Store
+/extra
+**/target
+**/.metals
+**/.vscode
+**/.idea
+**/.bsp
+.scalafmt.conf
+entorno/apps

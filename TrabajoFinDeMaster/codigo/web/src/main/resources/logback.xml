@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <!-- grok: \A%{TIMESTAMP_ISO8601:timestamp}%{SPACE}%{LOGLEVEL:level}%{SPACE}%{NOTSPACE:thread}%{SPACE}%{NOTSPACE:class}%{SPACE}%{NOTSPACE}%{SPACE}%{JAVALOGMESSAGE:message} -->
+            <pattern>%date{ISO8601} %-5level [%thread] %logger{40}:%line - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>target/application.log</file>
+        <append>false</append>
+        <encoder>
+            <pattern>%date{ISO8601} %-5level [%thread] %logger{40}:%line - %msg%n%rEx</pattern>
+        </encoder>
+    </appender>
+
+
+    <appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="STDOUT"/>
+    </appender>
+
+    <logger name="org.uam.masterbigdata" level="INFO"/>
+
+    <logger name="akka" level="INFO"/>
+    <logger name="akka.actor.ActorSystemImpl" level="INFO"/>
+    <logger name="akka.stream" level="INFO"/>
+
+    <logger name="ch.qos.logback" level="INFO"/>
+
+    <logger name="slick" level="INFO"/>
+    <logger name="slick.jdbc" level="INFO"/>
+    <logger name="slick.jdbc.JdbcBackend" level="DEBUG"/>
+    <logger name="slick.jdbc.StatementInvoker.result" level="DEBUG"/>
+    <logger name="com.zaxxer" level="INFO"/>
+
+    <logger name="io.netty" level="INFO"/>
+    <logger name="com.datastax.driver" level="INFO"/>
+
+    <logger name="io.getquill" level="INFO"/>
+
+
+    <root level="INFO">
+        <appender-ref ref="ASYNC"/>
+    </root>
+</configuration>

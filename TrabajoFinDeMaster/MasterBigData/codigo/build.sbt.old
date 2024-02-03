@@ -1,0 +1,37 @@
+ThisBuild / scalaVersion := "2.12.10"
+val sparkVersion = "3.2.3"
+val vegasVersion = "0.3.11"
+val postgresVersion = "42.2.2"
+val log4j = "2.4.1"
+
+val spark_core = "org.apache.spark" %% "spark-core" % sparkVersion
+val spark_sql = "org.apache.spark" %% "spark-sql" % sparkVersion
+// logging
+val log4j_api = "org.apache.logging.log4j" % "log4j-api" % log4j
+val log4j_core = "org.apache.logging.log4j" % "log4j-core" % log4j
+// postgres for DB connectivity
+val postgre_driver = "org.postgresql" % "postgresql" % postgresVersion
+
+lazy val web = (project in file("web"))
+  .settings(
+    name := "web",
+    version := "0.1"
+  )
+
+lazy val batch = (project in file("batch_layer"))
+  .settings(
+    name := "batch_layer",q
+    version := "0.1",
+    libraryDependecies ++= Seq(
+      spark_core,
+      spark_sql,
+      log4j_api,
+      log4j_core,
+      postgre_driver
+    )
+  )
+
+lazy val speed = (project in file("speed_layer"))
+  .settings(
+    name := "speed_layer"
+  )
