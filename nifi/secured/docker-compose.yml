@@ -1,0 +1,9 @@
+services:
+  nifi:
+    build: ./nifi_docker_build
+    ports:
+      - '8080:8080'
+  nifi_registry:
+    build: ./nifi_registry_docker_build
+    ports:
+      - '18080:18080'
