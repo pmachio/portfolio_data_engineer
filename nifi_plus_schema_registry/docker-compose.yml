@@ -1,0 +1,10 @@
+services:
+  nifi:
+    image: domacker/nifi:1.25.0 #es una version antigua
+    ports:
+      - '8443:8443' 
+  registry:
+    image: domacker/hortonworks_schema_registry:1.0.0 #No apuntamos al directorio del build usamos una imagen ya creada
+    ports:
+      - '9090:9090' #user
+      - '9091:9091' #Admin
