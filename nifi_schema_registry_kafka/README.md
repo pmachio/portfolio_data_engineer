@@ -20,3 +20,5 @@ Ejemplo de uso de apache nifi y horton works basado en [esto](https://community.
 
 - Configurar los controler servicies. Habilitar el servicio HortonworksSchemaRegistry primero y luego el resto
 - Para que el procesador 'Get CSV File' pueda producir hay que meterse en contenedor de nifi, y en el bash crear la carpeta 'Get CSV File' y dentro crear un csv que contenga los datos del archivo 'users.txt'
+
+## Integracion Spark
