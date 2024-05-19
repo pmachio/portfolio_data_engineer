@@ -7,8 +7,8 @@ services:
   registry:
     image: domacker/hortonworks_schema_registry:1.0.0 #No apuntamos al directorio del build usamos una imagen ya creada
     ports:
-      - '9090:9090' #user
-      - '9091:9091' #Admin
+      - '19090:9090' #user
+      - '19091:9091' #Admin
 
   zookeeper:
     image: domacker/zookeeper:3.4
@@ -18,13 +18,14 @@ services:
   kafka:
     image: domacker/kafka:2.8.1
     ports:
+      - '9090:9090'
       - '9092:9092'
     environment:
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_LISTENERS: "INTERNAL://kafka:9090,\
         EXTERNAL://:9092"
       KAFKA_ADVERTISED_LISTENERS: "INTERNAL://kafka:9090,\
-        EXTERNAL://kafka:9092"
+        EXTERNAL://localhost:9092"
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: "INTERNAL:PLAINTEXT,\
         EXTERNAL:PLAINTEXT"
       KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL

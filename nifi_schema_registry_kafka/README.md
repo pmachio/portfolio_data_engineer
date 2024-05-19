@@ -22,3 +22,10 @@ Ejemplo de uso de apache nifi y horton works basado en [esto](https://community.
 - Para que el procesador 'Get CSV File' pueda producir hay que meterse en contenedor de nifi, y en el bash crear la carpeta 'Get CSV File' y dentro crear un csv que contenga los datos del archivo 'users.txt'
 
 ## Integracion Spark
+
+## Importante
+
+### Configuración kafka
+
+Al configurar el container de kafka establecemos 2 listener uno para la red del docker compose y otra para conectar desde el host.
+[Más info](https://www.confluent.io/blog/kafka-listeners-explained/)
