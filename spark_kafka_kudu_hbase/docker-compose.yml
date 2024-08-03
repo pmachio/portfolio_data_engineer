@@ -1,0 +1,39 @@
+
+
+services:
+  #HBASE
+  hbase:
+      #solo hay un tag, latest
+      image: dajobe/hbase
+      ports:
+        - 16010:16010
+        - 9095:9095
+        - 8085:8085
+     
+  kudu-master-1:
+    image: apache/kudu:1.13.0
+    ports:
+      - 7051:7051
+      - 8051:8051
+    command: [ "master" ]
+    environment:
+      - KUDU_MASTERS=kudu-master-1,kudu-master-2
+  kudu-master-2:
+    image: apache/kudu:1.13.0
+    command: [ "master" ]
+    environment:
+      - KUDU_MASTERS=kudu-master-1,kudu-master-2
+
+  kudu-tserver:
+    image: apache/kudu:1.13.0 
+    depends_on:
+      - kudu-master-1
+      - kudu-master-2
+    ports:
+      - 7050:7050
+      - 8050:8050
+    command: [ "tserver" ]
+    environment:
+      - KUDU_MASTERS=kudu-master-1,kudu-master-2
+    deploy:
+      replicas: 1
