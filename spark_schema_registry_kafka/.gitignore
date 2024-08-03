@@ -1,0 +1,5 @@
+*.class
+**/target/**
+codigo/.bsp/*
+codigo/.idea/*
+
