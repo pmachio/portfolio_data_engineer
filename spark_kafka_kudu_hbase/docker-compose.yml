@@ -2,14 +2,30 @@
 
 services:
   #HBASE
-  hbase:
+  hbase-docker:
       #solo hay un tag, latest
       image: dajobe/hbase
+      environment:
+        - HBASE_DOCKER_HOSTNAME=hbase-docker
       ports:
+        # WEB UI
+        ## HBASE
         - 16010:16010
+        ##Resgion
+        - 16030:16030
+        # TRHIFT
         - 9095:9095
+        # REST
         - 8085:8085
-     
+        # COMUNICACION
+        # ZOOKEEPER
+        - 2181:2181
+        # THRIFT
+        - 9090:9090
+        ## REST (OJO OTROS SERVICIO)
+        - 8080:8080
+        ##Resgion
+        - 16020:16020
   kudu-master-1:
     image: apache/kudu:1.13.0
     ports:
@@ -25,7 +41,7 @@ services:
       - KUDU_MASTERS=kudu-master-1,kudu-master-2
 
   kudu-tserver:
-    image: apache/kudu:1.13.0 
+    image: apache/kudu:1.13.0
     depends_on:
       - kudu-master-1
       - kudu-master-2
