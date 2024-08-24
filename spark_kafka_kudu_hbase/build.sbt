@@ -1,3 +1,4 @@
+//IMPORTANTE: USAR JDK 1.8
 name := "HBASE_SPARK"
 
 version := "0.1"
@@ -10,9 +11,13 @@ resolvers ++= Seq("spark hadoopoffice" at "https://mvnrepository.com/artifact/co
 
 
 libraryDependencies ++= Seq(
-  "org.apache.spark"     %% "spark-core" % "2.4.0-cdh6.3.4" ,
-  "org.apache.spark"     %% "spark-sql"  % "2.4.0-cdh6.3.4" ,
-  "org.apache.hbase"     % "hbase-spark" % "2.1.0-cdh6.3.4" ,
-  "org.apache.spark"     % "spark-streaming_2.11" % "2.4.0" ,
-  "org.apache.kudu"      % "kudu-spark2_2.11" % "1.13.0"
+  "org.apache.spark"     %% "spark-core" % "2.4.0"
+  ,"org.apache.spark"     %% "spark-sql"  % "2.4.0"
+  ,"org.apache.hbase" % "hbase-client" % "2.1.4"
+  ,"org.apache.hbase" % "hbase-server" % "2.1.4"
+  , "org.apache.hbase" % "hbase-common" % "2.1.4"
+  , "org.apache.hbase" % "hbase-protocol" % "2.1.4"
+  , "org.apache.hbase"     % "hbase-spark" % "2.1.0-cdh6.3.4"
+  ,"org.apache.spark"     % "spark-streaming_2.11" % "2.4.0"
+  //, "org.apache.kudu"      % "kudu-spark2_2.11" % "1.13.0"
 )

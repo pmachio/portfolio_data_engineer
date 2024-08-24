@@ -1,28 +1,43 @@
 package org.pmachio.playgound
 
+import org.apache.spark.SparkConf
 import org.apache.spark.sql._
 import org.apache.hadoop.hbase.spark.HBaseContext
 import org.apache.hadoop.hbase.HBaseConfiguration
+import org.apache.hadoop.hbase.HBaseConfiguration
+import org.apache.hadoop.hbase.spark.HBaseContext
+import org.apache.hadoop.hbase.TableName
+import org.apache.hadoop.hbase.client.ConnectionFactory
+import org.apache.hadoop.hbase.client.Get
+import org.apache.hadoop.hbase.util.Bytes
+import org.apache.spark.SparkConf
+import org.apache.spark.sql.SparkSession
+
 
 object Play {
   def main(args: Array[String]): Unit = {
 
     //Define spark session
-
-    val spark = SparkSession.builder().getOrCreate()
+    val sparkConf = new SparkConf()
+      .setAppName("Spark HBase Example")
+      .setMaster("local[*]")
+    val spark = SparkSession.builder()
+      .config(sparkConf)
+      .getOrCreate()
 
     // Hbase connection setup with help of zookeeper:
-
-    val conf = new HBaseConfiguration()
-    conf.set("hbase.zookeeper.quorum", "hostname1,hostname2...") //zookeeper servers
+    val conf =  HBaseConfiguration.create()
+    conf.set("hbase.zookeeper.quorum", "hbase-docker") //zookeeper servers. En este caso la imagen de habse tiene embebido un zookeeper. Hay que meter el nombre del archivo en el fichero Hosts
     conf.set("hbase.zookeeper.property.clientPort", "2181") // zookeeper server port
     new HBaseContext(spark.sparkContext, conf)
+
+
 
     //Read data from Hbase into a Spark Dataframe:
 
     val sql = spark.sqlContext
 
-    val hbaseTable = "default:WAR_PLAN" // Hbase table name
+    val hbaseTable = "default:WAR_PLAN" // Hbase table name. namespace default
 
     val columnMapping =
       """id string :key,
@@ -41,15 +56,15 @@ object Play {
 
     //Write data from Spark dataframe into an hbase table :
 
-    val hiveTmp = spark.sql("select * from default.war_plan") // Select data from Hive table
+    //val hiveTmp = spark.sql("select * from default.war_plan") // Select data from Hive table
 
-    val columns: Array[String]= hbaseDf.columns
-    val hiveDf = hiveTmp.select(columns.head, columns.tail: _*) // Select hive dataframe columns in the same order as those for hbase.
-    hiveDf.createOrReplaceTempView("hiveDataframe")
+    //val columns: Array[String]= hbaseDf.columns
+    //val hiveDf = hiveTmp.select(columns.head, columns.tail: _*) // Select hive dataframe columns in the same order as those for hbase.
+   // hiveDf.createOrReplaceTempView("hiveDataframe")
 
 
-    val insertStatement = "insert into hiveDataframe select * from hbaseDataframe"
-    spark.sql(insertStatement) // Execute the insert statement.
+    //val insertStatement = "insert into hiveDataframe select * from hbaseDataframe"
+    //spark.sql(insertStatement) // Execute the insert statement.
 
 
 
