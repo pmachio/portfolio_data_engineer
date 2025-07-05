@@ -1,0 +1,20 @@
+{{- if .Values.influxdb.storage.class }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Release.Name }}-influx
+{{- with .Values.influxdb.storage }}
+spec:
+  storageClassName: {{ .class }}
+  {{- if .zone }}
+  selector:
+    matchLabels:
+      failure-domain.beta.kubernetes.io/zone: {{ .zone }}
+  {{- end }}
+  accessModes:
+    - {{ .type }}
+  resources:
+    requests:
+      storage: {{ .size }}
+{{- end }}
+{{- end }}

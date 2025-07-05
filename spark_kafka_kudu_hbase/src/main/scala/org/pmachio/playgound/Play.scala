@@ -21,13 +21,28 @@ object Play {
     val sparkConf = new SparkConf()
       .setAppName("Spark HBase Example")
       .setMaster("local[*]")
+      /**Spark Dashboards Example*/
+      .set("spark.metrics.conf.*.sink.graphite.class", "org.apache.spark.metrics.sink.GraphiteSink")
+      .set("spark.metrics.conf.*.sink.graphite.host", "dashboard")
+      .set("spark.metrics.conf.*.sink.graphite.port", "2003")
+      .set("spark.metrics.conf.*.sink.graphite.period", "10")
+      .set("spark.metrics.conf.*.sink.graphite.unit","seconds")
+      .set("spark.metrics.conf.*.sink.graphite.prefix","spark")
+      .set("spark.metrics.conf.*.source.jvm.class","org.apache.spark.metrics.source.JvmSource")
+      .set("spark.metrics.staticSources.enabled","true")
+      .set("spark.metrics.appStatusSource.enabled","true")
+      .set("spark.metrics.appStatusSource.enabled","true")
+      .set("spark.sql.streaming.metricsEnabled","true")
+
+
     val spark = SparkSession.builder()
       .config(sparkConf)
       .getOrCreate()
 
     // Hbase connection setup with help of zookeeper:
     val conf =  HBaseConfiguration.create()
-    conf.set("hbase.zookeeper.quorum", "hbase-docker") //zookeeper servers. En este caso la imagen de habse tiene embebido un zookeeper. Hay que meter el nombre del archivo en el fichero Hosts
+    //conf.set("hbase.zookeeper.quorum", "hbase-docker") //zookeeper servers. En este caso la imagen de habse tiene embebido un zookeeper. Hay que meter el nombre del archivo en el fichero Hosts
+    conf.set("hbase.zookeeper.quorum", "localhost") //zookeeper servers. En este caso la imagen de habse tiene embebido un zookeeper. Hay que meter el nombre del archivo en el fichero Hosts
     conf.set("hbase.zookeeper.property.clientPort", "2181") // zookeeper server port
     new HBaseContext(spark.sparkContext, conf)
 

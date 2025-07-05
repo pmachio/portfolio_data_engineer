@@ -19,5 +19,7 @@ libraryDependencies ++= Seq(
   , "org.apache.hbase" % "hbase-protocol" % "2.1.4"
   , "org.apache.hbase"     % "hbase-spark" % "2.1.0-cdh6.3.4"
   ,"org.apache.spark"     % "spark-streaming_2.11" % "2.4.0"
-  //, "org.apache.kudu"      % "kudu-spark2_2.11" % "1.13.0"
+  //, "org.apache.kudu"      % "kudu-spark2_2.11" % "1.13.0"s
+  //Influxdb para metricas
+  ,"com.influxdb" % "influxdb-client-java" % "6.9.0"
 )

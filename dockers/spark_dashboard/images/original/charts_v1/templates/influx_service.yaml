@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-influx
+{{ with .Values.influxdb }}
+spec:
+  selector:
+    app: influx
+  type: {{ .service.type }}
+  {{- if and .service.lbSourceRange (eq .service.type "LoadBalancer") }}
+  loadBalancerSourceRanges:
+  - {{ .service.lbSourceRange }} 
+  {{- end }}
+  ports:
+  - protocol: TCP
+    name: influx
+    port: {{ .service.influx.port }}
+    targetPort: {{ .service.influx.targetPort }}
+  - protocol: TCP
+    name: graphite
+    port: {{ .service.graphite.port }}
+    targetPort: {{ .service.graphite.targetPort }}
+{{- end }}
